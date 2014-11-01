@@ -5,7 +5,8 @@ var del = require('del');
 
 var paths = {
   scripts: ['src/js/**/*.js'],
-  copy: ['bower_components/angular/angular.min.js', 'bower_components/angular-route/angular-route.min.js']
+  styles: ['src/css/**/*.css'],
+  copy: ['./bower_components/angular/angular.min.js', './bower_components/angular-route/angular-route.min.js']
 };
 
 gulp.task('clean', function (cb) {
@@ -19,10 +20,17 @@ gulp.task('copy', function () {
 
 gulp.task('scripts', ['clean', 'copy'], function () {
   return gulp.src(paths.scripts)
-  //  .pipe(uglify())
     .pipe(concat('app.min.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('app/js'));
 });
+
+gulp.task('styles', ['clean', 'copy'], function () {
+  return gulp.src(paths.styles)
+    .pipe(concat('app.css'))
+    .pipe(gulp.dest('app/css'));
+});
+
 
 gulp.task('watch', function () {
   gulp.watch(paths.scripts, ['scripts']);
